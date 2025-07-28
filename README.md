@@ -22,14 +22,22 @@ This document tracks the changes made to the project.
 - Extracted company domain generation logic to companyUtils.
 - Improved code maintainability and reusability.
 
-### Mock Data (`src/mock/jobs.ts`)
-- Mock job data extracted to a separate file.
-
 ### Main Entry Point (`src/main.tsx`)
-- Added ThemeProvider wrapper for global theme management in a root file.
+- Added Provider wrapper for all contexts
+
+### Provider (`src/contexts/Provider.tsx`)
+- Created root wrapper for contexts
 
 ### Theme Context (`src/contexts/ThemeContext.tsx`)
 - Added memoization to context value using useMemo for performance optimization.
+
+### Job Context (`src/contexts/JobContext.tsx`)
+- Created store for jobs
+
+### PostJobModal (`src/components/PostJobModal.tsx`)
+- Added TS interface for formData
+- Created initialFormData
+- Integrated usage of Job Context 
 
 ## Hooks
 
@@ -69,12 +77,7 @@ This document tracks the changes made to the project.
 ### FilterState
 - Implemented TS interface for filter's state.
 
-## Code Quality Improvements
+## Mock
 
-### Import Documentation
-- Added comprehensive comments to all import statements across the codebase.
-- Improves code readability and maintainability.
-
-### Modal Architecture
-- Refactored modal management from component-level to hook-based architecture.
-- Better separation of concerns and reusability.
+### Jobs Data (`src/mock/jobs.ts`)
+- Mock job data extracted to a separate file.

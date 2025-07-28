@@ -1,48 +1,52 @@
 // Core
 import React, { useState } from 'react';
 import { X, Building2, MapPin, DollarSign, FileText, Users, Clock, Activity } from 'lucide-react';
+import { Job } from '../types/Job';
+import { useJobs } from '../contexts/JobContext';
 
 interface PostJobModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+type JobFormData = Omit<Job, 'id' | 'postedDate'>;
+
+const initialFormData: JobFormData = {
+  title: '',
+  company: '',
+  location: '',
+  salary: '',
+  type: 'Full-time',
+  experience: 'Mid-level',
+  description: '',
+  requirements: [''],
+  sportType: 'Fitness Training'
+}
+
 const PostJobModal: React.FC<PostJobModalProps> = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({
-    title: '',
-    company: '',
-    location: '',
-    salary: '',
-    type: 'Full-time',
-    experience: 'Mid-level',
-    description: '',
-    requirements: '',
-    sportType: 'Fitness Training'
-  });
+  const [formData, setFormData] = useState<JobFormData>(initialFormData);
+  const { addJob } = useJobs();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Job posted:', formData);
+    addJob(formData);
     onClose();
     // Reset form
-    setFormData({
-      title: '',
-      company: '',
-      location: '',
-      salary: '',
-      type: 'Full-time',
-      experience: 'Mid-level',
-      description: '',
-      requirements: '',
-      sportType: 'Fitness Training'
-    });
+    setFormData(initialFormData);
   };
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const handleRequirementsChange = (value: string) => {
+    const requirements = value.split('\n').filter(req => req.trim() !== '');
+    setFormData(prev => ({
+      ...prev,
+      requirements: requirements.length > 0 ? requirements : ['']
     }));
   };
 
@@ -231,8 +235,8 @@ const PostJobModal: React.FC<PostJobModalProps> = ({ isOpen, onClose }) => {
             </label>
             <textarea
               rows={3}
-              value={formData.requirements}
-              onChange={(e) => handleChange('requirements', e.target.value)}
+              value={formData.requirements.join('\n')}
+              onChange={(e) => handleRequirementsChange(e.target.value)}
               placeholder="List the key requirements, certifications, and qualifications (one per line)"
               className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-xl focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-transparent transition-all duration-200 resize-none"
             />

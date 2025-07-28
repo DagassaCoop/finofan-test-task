@@ -7,13 +7,13 @@ import App from './App.tsx';
 // Styles
 import './index.css';
 
-// Providers
-import { ThemeProvider } from './contexts/ThemeContext';
+// Provider
+import Provider from './contexts/Provider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider >
+    <Provider >
       <App />
-    </ThemeProvider>
+    </Provider>
   </StrictMode>
 );
