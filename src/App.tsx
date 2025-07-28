@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 
 // Components
 import Header from './components/Header';
@@ -10,75 +10,31 @@ import JobDetailModal from './components/JobDetailModal';
 import { Job } from './types/Job';
 // Mock
 import { mockJobs } from './mock/jobs';
-
-
-
-
-
-export interface FilterState {
-  search: string;
-  location: string;
-  jobType: string;
-  experience: string;
-}
+// Hooks
+import { useJobFilters } from './hooks/useJobFilters';
 
 const App = () => {
   const [jobs] = useState<Job[]>(mockJobs);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [filters, setFilters] = useState<FilterState>({
-    search: '',
-    location: '',
-    jobType: '',
-    experience: ''
-  });
+  
+  const { filters, filteredJobs, handleFilterChange } = useJobFilters(jobs);
 
-  const filteredJobs = useMemo(() => {
-    const { search, location, jobType, experience } = filters;    
-    
-    if (!search && !location && !jobType && !experience) {
-      return jobs;
-    }
-
-    return jobs.filter(job => {      
-      if (search) {
-        const searchLower = search.toLowerCase();
-        const matchesSearch = job.title.toLowerCase().includes(searchLower) ||
-                             job.company.toLowerCase().includes(searchLower);
-        if (!matchesSearch) return false;
-      }
-
-      if (location && !job.location.toLowerCase().includes(location.toLowerCase())) {
-        return false;
-      }
-
-      if (jobType && job.type !== jobType) {
-        return false;
-      }
-
-      if (experience && job.experience !== experience) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [jobs, filters]);
-
-  const handleFilterChange = (newFilters: FilterState) => {
-    setFilters(newFilters);
-  };
-
-  const handlePostJob = () => {
+  const handlePostJob = useCallback(() => {
     setIsPostModalOpen(true);
-  };
+  }, []);
 
-  const handleJobClick = (job: Job) => {
+  const handleJobClick = useCallback((job: Job) => {
     setSelectedJob(job);
-  };
+  }, []);
 
-  const handleCloseJobDetail = () => {
+  const handleCloseJobDetail = useCallback(() => {
     setSelectedJob(null);
-  };
+  }, []);
+
+  const handleClosePostModal = useCallback(() => {
+    setIsPostModalOpen(false);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
@@ -94,7 +50,7 @@ const App = () => {
       
       <PostJobModal 
         isOpen={isPostModalOpen}
-        onClose={() => setIsPostModalOpen(false)}
+        onClose={handleClosePostModal}
       />
 
       <JobDetailModal 

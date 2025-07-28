@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search, MapPin, Briefcase, TrendingUp } from 'lucide-react';
-import { FilterState } from '../App';
+import { FilterState } from '../types/FilterState';
 
 interface SearchFiltersProps {
   filters: FilterState;
