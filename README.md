@@ -10,6 +10,7 @@ This document tracks the changes made to the project.
 - Theme extracted from the component.
 - Filtering extracted from the component.
 - Modal logic moved to custom hooks for better separation of concerns.
+- Refactored to use centralized context providers.
 
 ### SearchFilters Component (`src/components/SearchFilters.tsx`)
 - Added reset button functionality for clearing all filters.
@@ -22,28 +23,36 @@ This document tracks the changes made to the project.
 - Extracted company domain generation logic to companyUtils.
 - Improved code maintainability and reusability.
 
+### PostJobModal Component (`src/components/PostJobModal.tsx`)
+- Added TypeScript interface for formData.
+- Created initialFormData state management.
+- Integrated usage of Job Context for job creation.
+- Added form reset functionality after modal closing.
+
+### ApplicationModal Component (`src/components/ApplicationModal.tsx`)
+- Added TypeScript interface for formData.
+- Created initialFormData state management.
+- Added form reset functionality after modal closing.
+- Integrated with useJobModals hook for centralized modal management.
+
+### JobDetailModal Component (`src/components/JobDetailModal.tsx`)
+- Refactored to use utility functions for badge colors.
+- Improved code organization and maintainability.
+
 ### Main Entry Point (`src/main.tsx`)
-- Added Provider wrapper for all contexts
+- Added Provider wrapper for all contexts.
 
 ### Provider (`src/contexts/Provider.tsx`)
-- Created root wrapper for contexts
+- Created root wrapper for contexts.
+- Provides centralized context management.
 
 ### Theme Context (`src/contexts/ThemeContext.tsx`)
 - Added memoization to context value using useMemo for performance optimization.
 
 ### Job Context (`src/contexts/JobContext.tsx`)
-- Created store for jobs
-
-### Post Job Modal (`src/components/PostJobModal.tsx`)
-- Added TS interface for formData
-- Created initialFormData
-- Integrated usage of Job Context 
-- Added reset after closing
-
-### Application Modal (`src/components/ApplicationModal.tsx`)
-- Added TS interface for formData
-- Created initialFormData
-- Added reset after closing
+- Created store for jobs management.
+- Provides addJob functionality for creating new jobs.
+- Manages jobs state with mock data integration.
 
 ## Hooks
 
@@ -60,6 +69,7 @@ This document tracks the changes made to the project.
 ### useJobModals
 - Created specialized hook for managing job-related modals (ApplicationModal, JobDetailModal, PostJobModal).
 - Centralized modal logic previously scattered in App component.
+- Integrated ApplicationModal state management.
 
 ## Utils
 
@@ -70,9 +80,10 @@ This document tracks the changes made to the project.
 - Extracted date formatting logic from JobCard component.
 - Provides reusable date formatting functionality.
 
-### sportTagColors
-- Extracted sport tag color logic from JobCard component.
-- Centralized color management for different sport types.
+### badgeColors
+- Centralized color management for different badge types.
+- Provides functions for sport tag colors, experience badge colors, and job type badge colors.
+- Replaces sportTagColors utility with more comprehensive solution.
 
 ### companyUtils
 - Extracted company domain generation logic from JobCard component.
