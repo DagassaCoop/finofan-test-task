@@ -11,14 +11,24 @@ interface ApplicationModalProps {
   onClose: () => void;
 }
 
+interface FormDataState {
+  fullName: string
+  email: string
+  phone: string
+  coverLetter: string
+  resume: File | null
+}
+
+const initialFormState: FormDataState = {
+  fullName: '',
+  email: '',
+  phone: '',
+  coverLetter: '',
+  resume: null as File | null
+}
+
 const ApplicationModal: React.FC<ApplicationModalProps> = ({ job, isOpen, onClose }) => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    coverLetter: '',
-    resume: null as File | null
-  });
+  const [formData, setFormData] = useState<FormDataState>(initialFormState);
 
   const [dragActive, setDragActive] = useState(false);
 
@@ -27,16 +37,17 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ job, isOpen, onClos
     // Handle application submission here
     console.log('Application submitted:', formData);
     alert('Application submitted successfully!');
-    onClose();
+    
     // Reset form
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      coverLetter: '',
-      resume: null
-    });
+    setFormData(initialFormState);
+    onClose();
   };
+
+  const handleClose = () => {
+    // Reset form
+    setFormData(initialFormState);
+    onClose()
+  }
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -94,7 +105,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ job, isOpen, onClos
             <p className="text-gray-600 dark:text-gray-300 mt-1">{job.title} at {job.company}</p>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <X className="w-6 h-6 text-gray-500 dark:text-gray-400" />
@@ -233,7 +244,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ job, isOpen, onClos
           <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel

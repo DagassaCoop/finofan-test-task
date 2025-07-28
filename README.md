@@ -34,10 +34,16 @@ This document tracks the changes made to the project.
 ### Job Context (`src/contexts/JobContext.tsx`)
 - Created store for jobs
 
-### PostJobModal (`src/components/PostJobModal.tsx`)
+### Post Job Modal (`src/components/PostJobModal.tsx`)
 - Added TS interface for formData
 - Created initialFormData
 - Integrated usage of Job Context 
+- Added reset after closing
+
+### Application Modal (`src/components/ApplicationModal.tsx`)
+- Added TS interface for formData
+- Created initialFormData
+- Added reset after closing
 
 ## Hooks
 
