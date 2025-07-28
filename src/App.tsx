@@ -4,6 +4,7 @@ import SearchFilters from './components/SearchFilters';
 import JobGrid from './components/JobGrid';
 import PostJobModal from './components/PostJobModal';
 import JobDetailModal from './components/JobDetailModal';
+import ApplicationModal from './components/ApplicationModal';
 // Contexts
 import { useJobs } from './contexts/JobContext';
 // Hooks
@@ -21,7 +22,10 @@ const App = () => {
     selectedJob,
     isJobDetailModalOpen,
     openJobDetailModal,
-    closeJobDetailModal
+    closeJobDetailModal,
+    isApplicationModalOpen,
+    openApplicationModal,
+    closeApplicationModal
   } = useJobModals();
 
   return (
@@ -46,6 +50,13 @@ const App = () => {
         job={selectedJob}
         isOpen={isJobDetailModalOpen}
         onClose={closeJobDetailModal}
+        onApplyClick={openApplicationModal}
+      />
+
+      <ApplicationModal 
+        job={selectedJob}
+        isOpen={isApplicationModalOpen}
+        onClose={closeApplicationModal}
       />
     </div>
   );

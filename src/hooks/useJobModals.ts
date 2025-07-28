@@ -11,6 +11,7 @@ export const useJobModals = () => {
   
   const postJobModal = useModal();
   const jobDetailModal = useModal();
+  const applicationModal = useModal();
 
   const openPostJobModal = useCallback(() => {
     postJobModal.open();
@@ -30,6 +31,16 @@ export const useJobModals = () => {
     jobDetailModal.close();
   }, [jobDetailModal]);
 
+  const openApplicationModal = useCallback((job: Job) => {
+    setSelectedJob(job);
+    applicationModal.open();
+  }, [applicationModal]);
+
+  const closeApplicationModal = useCallback(() => {
+    setSelectedJob(null);
+    applicationModal.close();
+  }, [applicationModal]);
+
   return {
     // Post Job Modal
     isPostModalOpen: postJobModal.isOpen,
@@ -40,6 +51,11 @@ export const useJobModals = () => {
     selectedJob,
     isJobDetailModalOpen: jobDetailModal.isOpen,
     openJobDetailModal,
-    closeJobDetailModal
+    closeJobDetailModal,
+
+    // Application Modal
+    isApplicationModalOpen: applicationModal.isOpen,
+    openApplicationModal,
+    closeApplicationModal
   };
 }; 
