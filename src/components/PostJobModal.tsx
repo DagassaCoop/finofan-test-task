@@ -1,7 +1,10 @@
 // Core
 import React, { useState } from 'react';
 import { X, Building2, MapPin, DollarSign, FileText, Users, Clock, Activity } from 'lucide-react';
+
+// Types
 import { Job } from '../types/Job';
+// Context
 import { useJobs } from '../contexts/JobContext';
 
 interface PostJobModalProps {

@@ -1,5 +1,9 @@
+// Core
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+
+// Types
 import { Job } from '../types/Job';
+// Mock
 import { mockJobs } from '../mock/jobs';
 
 interface JobContextType {
