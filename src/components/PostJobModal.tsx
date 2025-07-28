@@ -38,6 +38,12 @@ const PostJobModal: React.FC<PostJobModalProps> = ({ isOpen, onClose }) => {
     setFormData(initialFormData);
   };
 
+  const handleClose = () => {
+    // Reset form
+    setFormData(initialFormData);
+    onClose()
+  }
+
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -65,7 +71,7 @@ const PostJobModal: React.FC<PostJobModalProps> = ({ isOpen, onClose }) => {
             <p className="text-gray-600 dark:text-gray-300 mt-1">Find the perfect candidate for your fitness team</p>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <X className="w-6 h-6 text-gray-500 dark:text-gray-400" />
@@ -249,7 +255,7 @@ const PostJobModal: React.FC<PostJobModalProps> = ({ isOpen, onClose }) => {
           <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
