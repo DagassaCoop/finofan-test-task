@@ -1,5 +1,8 @@
+// Core
 import React from 'react';
 import { Moon, Sun } from 'lucide-react';
+
+// Contexts
 import { useTheme } from '../contexts/ThemeContext';
 
 const ThemeToggle: React.FC = () => {

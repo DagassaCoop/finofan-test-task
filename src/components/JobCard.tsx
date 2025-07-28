@@ -1,5 +1,8 @@
+// Core
 import React from 'react';
 import { Clock, ArrowRight } from 'lucide-react';
+
+// Types
 import { Job } from '../types/Job';
 
 interface JobCardProps {

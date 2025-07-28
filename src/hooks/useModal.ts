@@ -1,3 +1,4 @@
+// Core
 import { useState, useCallback } from 'react';
 
 export const useModal = (initialState = false) => {

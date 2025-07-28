@@ -1,5 +1,8 @@
+// Core
 import React from 'react';
 import { Plus } from 'lucide-react';
+
+// Components
 import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {

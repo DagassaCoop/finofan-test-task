@@ -1,7 +1,11 @@
+// Core
 import React from 'react';
-import JobCard from './JobCard';
-import { Job } from '../types/Job';
 import { Briefcase } from 'lucide-react';
+
+// Components
+import JobCard from './JobCard';
+// Types
+import { Job } from '../types/Job';
 
 interface JobGridProps {
   jobs: Job[];

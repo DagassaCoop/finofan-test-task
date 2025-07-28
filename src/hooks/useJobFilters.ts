@@ -1,7 +1,12 @@
+// Core
 import { useState, useMemo, useCallback } from 'react';
+
+// Types
 import { Job } from '../types/Job';
 import { FilterState } from '../types/FilterState';
+// Utils
 import { filterJobs } from '../utils/jobFilters';
+// Hooks
 import { useDebounce } from './useDebounce';
 
 export const useJobFilters = (jobs: Job[]) => {

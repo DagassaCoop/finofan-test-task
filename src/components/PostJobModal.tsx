@@ -1,3 +1,4 @@
+// Core
 import React, { useState } from 'react';
 import { X, Building2, MapPin, DollarSign, FileText, Users, Clock, Activity } from 'lucide-react';
 

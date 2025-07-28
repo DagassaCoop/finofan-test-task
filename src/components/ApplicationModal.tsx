@@ -1,5 +1,8 @@
+// Core
 import React, { useState } from 'react';
 import { X, Upload, FileText, User, Mail, Phone, MessageSquare } from 'lucide-react';
+
+// Types
 import { Job } from '../types/Job';
 
 interface ApplicationModalProps {

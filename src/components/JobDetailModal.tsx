@@ -1,6 +1,10 @@
+// Core
 import React, { useState } from 'react';
 import { X, Clock, MapPin, DollarSign, Briefcase, TrendingUp, CheckCircle, Building2 } from 'lucide-react';
+
+// Types
 import { Job } from '../types/Job';
+// Components
 import ApplicationModal from './ApplicationModal';
 
 interface JobDetailModalProps {

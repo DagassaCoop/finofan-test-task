@@ -1,5 +1,9 @@
+// Core
 import { useState, useCallback } from 'react';
+
+// Types
 import { Job } from '../types/Job';
+// Hooks
 import { useModal } from './useModal';
 
 export const useJobModals = () => {
