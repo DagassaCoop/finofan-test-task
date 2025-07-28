@@ -17,7 +17,7 @@ import { useJobModals } from './hooks/useJobModals';
 const App = () => {
   const [jobs] = useState<Job[]>(mockJobs);
   
-  const { filters, filteredJobs, handleFilterChange } = useJobFilters(jobs);
+  const { filters, filteredJobs, handleFilterChange, resetFilters } = useJobFilters(jobs);
   const {
     isPostModalOpen,
     openPostJobModal,
@@ -35,6 +35,7 @@ const App = () => {
           <SearchFilters 
             filters={filters}
             onFilterChange={handleFilterChange}
+            onResetFilters={resetFilters}
           />
           
           <JobGrid jobs={filteredJobs} onJobClick={openJobDetailModal} />

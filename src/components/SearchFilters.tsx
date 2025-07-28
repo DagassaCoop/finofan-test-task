@@ -1,13 +1,17 @@
+// Core
 import React from 'react';
-import { Search, MapPin, Briefcase, TrendingUp } from 'lucide-react';
+import { Search, MapPin, Briefcase, TrendingUp, X } from 'lucide-react';
+
+// Types
 import { FilterState } from '../types/FilterState';
 
 interface SearchFiltersProps {
   filters: FilterState;
   onFilterChange: (filters: FilterState) => void;
+  onResetFilters: () => void;
 }
 
-const SearchFilters: React.FC<SearchFiltersProps> = ({ filters, onFilterChange }) => {
+const SearchFilters: React.FC<SearchFiltersProps> = ({ filters, onFilterChange, onResetFilters }) => {
   const handleInputChange = (field: keyof FilterState, value: string) => {
     onFilterChange({
       ...filters,
@@ -15,8 +19,22 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ filters, onFilterChange }
     });
   };
 
+  const hasActiveFilters = filters.search || filters.location || filters.jobType || filters.experience;
+
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 mb-6">
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-sm font-medium text-gray-900 dark:text-white">Search Filters</h3>
+        {hasActiveFilters && (
+          <button
+            onClick={onResetFilters}
+            className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+          >
+            <X className="w-3 h-3" />
+            Clear Filters
+          </button>
+        )}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {/* Search Input */}
         <div className="relative">
