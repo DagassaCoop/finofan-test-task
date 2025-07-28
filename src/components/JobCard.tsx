@@ -7,8 +7,8 @@ import { Job } from '../types/Job';
 
 // Utils
 import { formatDate } from '../utils/dateUtils';
-import { getSportTagColor } from '../utils/sportTagColors';
-import { generateCompanyDomain } from '../utils/companyUtils';
+import { getSportTagColor } from '../utils/badgeColors';
+import { generateCompanyWebsite } from '../utils/companyUtils';
 
 interface JobCardProps {
   job: Job;
@@ -63,7 +63,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onClick }) => {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-900 dark:text-white text-xs font-medium">Website</span>
-            <span className="text-gray-600 dark:text-gray-300 text-xs">{generateCompanyDomain(job.company)}</span>
+            <span className="text-gray-600 dark:text-gray-300 text-xs">{generateCompanyWebsite(job.company)}</span>
           </div>
         </div>
 

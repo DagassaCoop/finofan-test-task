@@ -6,6 +6,10 @@ import { X, Clock, MapPin, DollarSign, Briefcase, TrendingUp, CheckCircle, Build
 import { Job } from '../types/Job';
 // Components
 import ApplicationModal from './ApplicationModal';
+// Utils
+import { formatDate } from '../utils/dateUtils';
+import { getSportTagColor, getExperienceBadgeColor, getJobTypeBadgeColor } from '../utils/badgeColors';
+import { generateCompanyWebsite } from '../utils/companyUtils';
 
 interface JobDetailModalProps {
   job: Job | null;
@@ -18,57 +22,7 @@ const JobDetailModal: React.FC<JobDetailModalProps> = ({ job, isOpen, onClose })
 
   if (!isOpen || !job) return null;
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) return '1 day ago';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-    return `${Math.floor(diffDays / 30)} months ago`;
-  };
 
-  const getSportTagColor = (sportType: string) => {
-    const colors = {
-      'Fitness Training': 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
-      'Yoga': 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
-      'Swimming': 'bg-cyan-50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800',
-      'Pilates': 'bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800',
-      'CrossFit': 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800',
-      'Nutrition': 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800'
-    };
-    return colors[sportType as keyof typeof colors] || 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700';
-  };
-
-  const getExperienceBadgeColor = (experience: string) => {
-    switch (experience) {
-      case 'Entry-level':
-        return 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800';
-      case 'Mid-level':
-        return 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800';
-      case 'Senior':
-        return 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800';
-      default:
-        return 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700';
-    }
-  };
-
-  const getJobTypeBadgeColor = (type: string) => {
-    switch (type) {
-      case 'Full-time':
-        return 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
-      case 'Part-time':
-        return 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800';
-      case 'Contract':
-        return 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800';
-      case 'Freelance':
-        return 'bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800';
-      default:
-        return 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700';
-    }
-  };
 
   const handleApplyClick = () => {
     setIsApplicationModalOpen(true);
@@ -159,7 +113,7 @@ const JobDetailModal: React.FC<JobDetailModalProps> = ({ job, isOpen, onClose })
                 <Building2 className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                 <div>
                   <p className="text-sm font-medium text-gray-900 dark:text-white">Website</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">{job.company.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') + '.com'}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{generateCompanyWebsite(job.company)}</p>
                 </div>
               </div>
 
