@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 // Components
 import Header from './components/Header';
@@ -12,54 +12,46 @@ import { Job } from './types/Job';
 import { mockJobs } from './mock/jobs';
 // Hooks
 import { useJobFilters } from './hooks/useJobFilters';
+import { useJobModals } from './hooks/useJobModals';
 
 const App = () => {
   const [jobs] = useState<Job[]>(mockJobs);
-  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   
   const { filters, filteredJobs, handleFilterChange } = useJobFilters(jobs);
+  const {
+    isPostModalOpen,
+    openPostJobModal,
+    closePostJobModal,
+    selectedJob,
+    isJobDetailModalOpen,
+    openJobDetailModal,
+    closeJobDetailModal
+  } = useJobModals();
 
-  const handlePostJob = useCallback(() => {
-    setIsPostModalOpen(true);
-  }, []);
-
-  const handleJobClick = useCallback((job: Job) => {
-    setSelectedJob(job);
-  }, []);
-
-  const handleCloseJobDetail = useCallback(() => {
-    setSelectedJob(null);
-  }, []);
-
-  const handleClosePostModal = useCallback(() => {
-    setIsPostModalOpen(false);
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
-      <Header onPostJob={handlePostJob} />
-      <main className="container mx-auto px-6 py-8 max-w-6xl">
-        <SearchFilters 
-          filters={filters}
-          onFilterChange={handleFilterChange}
-        />
+      return (
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+        <Header onPostJob={openPostJobModal} />
+        <main className="container mx-auto px-6 py-8 max-w-6xl">
+          <SearchFilters 
+            filters={filters}
+            onFilterChange={handleFilterChange}
+          />
+          
+          <JobGrid jobs={filteredJobs} onJobClick={openJobDetailModal} />
+        </main>
         
-        <JobGrid jobs={filteredJobs} onJobClick={handleJobClick} />
-      </main>
-      
-      <PostJobModal 
-        isOpen={isPostModalOpen}
-        onClose={handleClosePostModal}
-      />
+        <PostJobModal 
+          isOpen={isPostModalOpen}
+          onClose={closePostJobModal}
+        />
 
-      <JobDetailModal 
-        job={selectedJob}
-        isOpen={!!selectedJob}
-        onClose={handleCloseJobDetail}
-      />
-    </div>
-  );
+        <JobDetailModal 
+          job={selectedJob}
+          isOpen={isJobDetailModalOpen}
+          onClose={closeJobDetailModal}
+        />
+      </div>
+    );
 }
 
 export default App;
