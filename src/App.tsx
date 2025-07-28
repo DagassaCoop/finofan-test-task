@@ -10,7 +10,7 @@ import { useJobs } from './contexts/JobContext';
 import { useJobFilters } from './hooks/useJobFilters';
 import { useJobModals } from './hooks/useJobModals';
 
-const AppContent = () => {
+const App = () => {
   const { jobs } = useJobs();
   
   const { filters, filteredJobs, handleFilterChange, resetFilters } = useJobFilters(jobs);
@@ -48,12 +48,6 @@ const AppContent = () => {
         onClose={closeJobDetailModal}
       />
     </div>
-  );
-}
-
-const App = () => {
-  return (
-    <AppContent />    
   );
 }
 
