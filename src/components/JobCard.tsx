@@ -80,4 +80,14 @@ const JobCard: React.FC<JobCardProps> = ({ job, onClick }) => {
   );
 };
 
-export default JobCard;
+export default React.memo(JobCard, (prevProps, nextProps) => {
+  return (
+    prevProps.job.id === nextProps.job.id &&
+    prevProps.job.title === nextProps.job.title &&
+    prevProps.job.company === nextProps.job.company &&
+    prevProps.job.description === nextProps.job.description &&
+    prevProps.job.location === nextProps.job.location &&
+    prevProps.job.sportType === nextProps.job.sportType &&
+    prevProps.job.postedDate === nextProps.job.postedDate
+  );
+});

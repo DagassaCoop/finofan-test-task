@@ -22,6 +22,7 @@ This document tracks the changes made to the project.
 - Extracted sport tag color logic to sportTagColors.
 - Extracted company domain generation logic to companyUtils.
 - Improved code maintainability and reusability.
+- Created advanced memo function.
 
 ### PostJobModal Component (`src/components/PostJobModal.tsx`)
 - Added TypeScript interface for formData.
