@@ -26,6 +26,7 @@ export interface AuthContextType extends AuthState {
   message: string | null;
   login: (credentials: Credentials) => Promise<AuthResult>;
   signUp: (credentials: Credentials) => Promise<AuthResult>;
+  signInWithGoogle: () => Promise<AuthResult>;
   logout: () => Promise<AuthResult>;
   clearMessages: () => void;
 } 

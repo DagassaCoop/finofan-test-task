@@ -25,7 +25,7 @@ const initialFormData = {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
-  const { login, signUp, error, message, clearMessages } = useAuth()
+  const { login, signUp, signInWithGoogle, error, message, clearMessages } = useAuth()
 
   const [mode, setMode] = useState<AuthMode>('login');
   const [showPassword, setShowPassword] = useState(false);
@@ -85,9 +85,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // TODO: Implement Google sign in
-    console.log('Google sign in clicked');
+  const handleGoogleSignIn = async () => {
+    const result = await signInWithGoogle()
+    
+    if (result.success) {
+      handleClose()
+    }
   };
 
   const handleSuccessClose = () => {

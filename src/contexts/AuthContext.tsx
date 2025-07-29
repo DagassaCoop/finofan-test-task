@@ -83,6 +83,30 @@ export const AuthContextProvider: React.FC<{children: ReactNode}> = ({children})
         }
     }
 
+    const signInWithGoogle = async () => {
+        try {
+            clearMessages()
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin
+                }
+            })
+
+            if (error) {
+                console.log("Error during Google sign in:", error)
+                setError(error.message)
+                return { success: false, error: error.message }
+            }
+
+            return { success: true, data }
+        } catch {
+            const errorMsg = 'Unexpected error during Google sign in'
+            setError(errorMsg)
+            return { success: false, error: errorMsg }
+        }
+    }
+
     const logout = async () => {
         try {
             clearMessages()
@@ -109,6 +133,7 @@ export const AuthContextProvider: React.FC<{children: ReactNode}> = ({children})
         message,
         signUp,
         login,
+        signInWithGoogle,
         logout,
         clearMessages,
     }
