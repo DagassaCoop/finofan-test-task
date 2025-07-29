@@ -5,8 +5,10 @@ import { Plus } from 'lucide-react';
 // Components
 import ThemeToggle from './ThemeToggle';
 import AuthModal from './AuthModal';
+import UserMenu from './UserMenu';
 // Hooks
 import { useModal } from '../hooks/useModal';
+import { useAuth } from '../hooks/useAuth';
 
 interface HeaderProps {
   onPostJob: () => void;
@@ -14,6 +16,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onPostJob }) => {
   const { isOpen: isAuthModalOpen, open: openAuthModal, close: closeAuthModal } = useModal();
+  const { user } = useAuth();
 
   return (
     <>
@@ -48,12 +51,16 @@ const Header: React.FC<HeaderProps> = ({ onPostJob }) => {
                 <span>Post Job</span>
               </button>
               
-              <button 
-                onClick={openAuthModal}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-xs"
-              >
-                Sign In
-              </button>
+              {user ? (
+                <UserMenu />
+              ) : (
+                <button 
+                  onClick={openAuthModal}
+                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-xs"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
         </div>

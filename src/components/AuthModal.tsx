@@ -1,13 +1,16 @@
 // Core
 import React, { useState } from 'react';
-import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { X, Mail, Lock, Eye, EyeOff, CheckCircle } from 'lucide-react';
+
+// Hook
+import { useAuth } from '../hooks/useAuth';
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type AuthMode = 'login' | 'signup';
+type AuthMode = 'login' | 'signup' | 'success';
 
 interface FormDataState {
     email: string
@@ -22,6 +25,8 @@ const initialFormData = {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+  const { login, signUp, error, message, clearMessages } = useAuth()
+
   const [mode, setMode] = useState<AuthMode>('login');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -45,6 +50,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     setFormData(initialFormData)
     setPasswordError('')
     setMode('login')
+    clearMessages()
     onClose()
   }
 
@@ -57,15 +63,26 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     return true;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validatePasswords()) {
       return;
     }
     
-    // TODO: Implement authentication logic
-    console.log('Form submitted:', formData);
+    if (mode === "login") {
+      const result = await login({email: formData.email, password: formData.password})
+
+      if (result.success) {
+        handleClose()
+      }
+    } else if (mode === "signup") {
+      const result = await signUp({email: formData.email, password: formData.password})
+      
+      if (result.success) {
+        setMode('success')
+      }
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -73,7 +90,52 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     console.log('Google sign in clicked');
   };
 
+  const handleSuccessClose = () => {
+    setMode('login')
+    clearMessages()
+  }
+
+  const handleChangeMode = () => {
+    clearMessages()
+    setFormData(initialFormData)
+    setMode(mode === 'login' ? 'signup' : 'login')
+  }
+
   if (!isOpen) return null;
+
+  // Success message after signup
+  if (mode === 'success') {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-md mx-4">
+          <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              Account Created
+            </h2>
+            <button
+              onClick={handleSuccessClose}
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="p-6 text-center">
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <p className="text-gray-700 dark:text-gray-300 mb-6">
+              {message || 'Please check your email to confirm your account'}
+            </p>
+            <button
+              onClick={handleSuccessClose}
+              className="w-full bg-black dark:bg-white text-white dark:text-black py-2 px-4 rounded-md font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+            >
+              Continue to Sign In
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -91,6 +153,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="p-6">
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {error}
+              </p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -212,7 +283,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
               <button
-                onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+                onClick={handleChangeMode}
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium"
               >
                 {mode === 'login' ? 'Sign up' : 'Sign in'}
