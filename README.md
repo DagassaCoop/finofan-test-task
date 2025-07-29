@@ -1,3 +1,44 @@
+# Job Board Application
+
+A modern React TypeScript application for job posting and searching. Built with Vite, Tailwind CSS, and Supabase for backend services.
+
+## Live Demo
+
+🌐 **Deployed on Vercel**: [fitofan-test-task.vercel.app](https://fitofan-test-task.vercel.app)
+
+## Local Setup
+
+### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+1. Clone the repository
+```bash
+git clone https://github.com/DagassaCoop/fitofan-test-task.git
+cd fitofan-test-task
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Start the development server
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+---
+
 # Project Changes Documentation
 
 This document tracks the changes made to the project.
